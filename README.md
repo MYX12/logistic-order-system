@@ -31,6 +31,7 @@ This project demonstrates end-to-end skills in **cloud infrastructure automation
   - CloudWatch log/metric collection, event-driven alerts.
 
 ---
+![project4](https://github.com/user-attachments/assets/725e357d-cc3f-44c3-933b-07975c412631)
 
 ## 🗂️ Project Structure
 
@@ -45,6 +46,6 @@ logistics-order-system/
 └── README.md
 
 
-![project4](https://github.com/user-attachments/assets/825e2eca-bb6d-4762-b073-de30ad8afacb)
+
 
 
