@@ -1,9 +1,9 @@
-name: Backend CI with Trivy
+name: frontend CI with Trivy
 
 on:
   push:
     paths:
-      - 'backend/**'
+      - 'frontend/**'
   workflow_dispatch:
 
 jobs:
@@ -17,14 +17,14 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v3
 
-      - name: Build backend image
+      - name: Build frontend image
         run: |
-          docker build -t backend-app ./backend
+          docker build -t frontend-app ./frontend
 
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'backend-app'
+          image-ref: 'frontend-app'
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
@@ -32,5 +32,5 @@ jobs:
       - name: Upload Trivy scan resul
         uses: actions/upload-artifact@v4
         with:
-          name: backend-trivy-report
+          name: frontend-trivy-report
           path: trivy-report.txt
