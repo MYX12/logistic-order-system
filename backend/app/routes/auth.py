@@ -66,3 +66,5 @@ def profile():
         'email': user.email,
         'created_at': user.created_at
     }),200
+
+    #add testing for action
