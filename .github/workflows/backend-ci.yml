@@ -52,7 +52,6 @@ jobs:
         run: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
           | docker login --username AWS --password-stdin 209479264082.dkr.ecr.ap-southeast-1.amazonaws.com
-
-      - name: Push image to ECR
-        run: |
           docker push 209479264082.dkr.ecr.ap-southeast-1.amazonaws.com/backend:latest
+
+
