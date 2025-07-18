@@ -19,7 +19,7 @@ jobs:
 
       - name: Build backend image
         run: |
-          docker build -t backend-app ./backend
+          docker build -t backend:latest ./backend
       - name: Tag Docker image
         run: docker tag backend:latest 209479264082.dkr.ecr.ap-southeast-1.amazonaws.com/backend:latest
 
@@ -55,4 +55,4 @@ jobs:
 
       - name: Push image to ECR
         run: |
-          docker push 209479264082.dkr.ecr.ap-southeast-1.amazonaws.com/backend
+          docker push 209479264082.dkr.ecr.ap-southeast-1.amazonaws.com/backend:latest
