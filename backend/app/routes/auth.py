@@ -69,16 +69,4 @@ def profile():
 
     #add testing for action
 
-    #testing again
-
-    #tesingV3
-    
-    #tesingV4
-
-        #tesingV5
-
-    #testingv6
-
-    #testingv7
-
-    #tseingv8
+  
