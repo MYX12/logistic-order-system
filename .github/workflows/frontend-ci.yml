@@ -1,4 +1,4 @@
-name: frontend CI with Trivy
+name: frontend CI with Trivy & GHCR
 
 on:
   push:
@@ -7,24 +7,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-scan:
+  frontend-build-and-push:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout source
         uses: actions/checkout@v3
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build frontend image
-        run: |
-          docker build -t frontend-app ./frontend
+      - name: Build and Push Image to GHCR
+        uses: ./.github/actions/build-and-push
+        with:
+          image-name: frontend
+          context: ./frontend
+          ghcr-username: ${{ secrets.GHCR_USERNAME }}
+          ghcr-token: ${{ secrets.GHCR_TOKEN }}
 
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'frontend-app'
+          image-ref: 'frontend'
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
@@ -34,4 +34,7 @@ jobs:
         with:
           name: frontend-trivy-report
           path: trivy-report.txt
+
+
+
 
