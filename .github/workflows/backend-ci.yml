@@ -1,4 +1,5 @@
 name: Backend CI with Trivy & GHCR
+env: SKIP_HELM_DEPLOY:true
 
 on:
   push:
@@ -24,6 +25,7 @@ jobs:
         uses: azure/setup-helm@v3
       
       - name: Deploy Helm Chart to EKS
+        if: ${{ env.SKIP_HELM_DEPLOY != 'true'}}
         uses: ./.github/actions/helm-deploy
         with:
           chart_path: ./helm-chart
@@ -37,7 +39,7 @@ jobs:
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
-
+          
       - name: Upload Trivy scan resul
         uses: actions/upload-artifact@v4
         with:
