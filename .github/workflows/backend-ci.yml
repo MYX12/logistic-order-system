@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - uses: ./.github/actions/build-and-push
         with:
@@ -21,7 +21,7 @@ jobs:
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'backend-app'
+          image-ref: 'backend'
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
