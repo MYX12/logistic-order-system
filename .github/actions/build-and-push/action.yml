@@ -8,6 +8,13 @@ inputs:
     description: Path to Dockerfile and app (e.g., ./backend)
     required: false
     default: '.'
+  ghcr-username:
+    description: GitHub Container Registry username
+    required: true
+  ghcr-token:
+    description: GitHub Container Registry token
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -18,13 +25,17 @@ runs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build Docker image
+      shell: bash
       run: docker build -t ${{ inputs.image-name }} ${{ inputs.context }}
 
     - name: Log in to GHCR
-      run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+      shell: bash
+      run: echo "${{ inputs.ghcr-token }}" | docker login ghcr.io -u ${{ inputs.ghcr-username }} --password-stdin
 
     - name: Tag Docker image for GHCR
-      run: docker tag ${{ inputs.image-name }} ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ inputs.image-name }}:latest
+      shell: bash
+      run: docker tag ${{ inputs.image-name }} ghcr.io/${{ inputs.ghcr-username }}/${{ inputs.image-name }}:latest
 
     - name: Push Docker image to GHCR
-      run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ inputs.image-name }}:latest
+      shell: bash
+      run: docker push ghcr.io/${{ inputs.ghcr-username }}/${{ inputs.image-name }}:latest
