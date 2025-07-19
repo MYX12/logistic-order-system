@@ -10,7 +10,8 @@ on:
 jobs:
   backend-build-and-push:
     runs-on: ubuntu-latest
-    env: SKIP_HELM_DEPLOY:true
+    env: 
+      SKIP_HELM_DEPLOY:true
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
