@@ -1,0 +1,37 @@
+name: "Helm Deploy Composite Action"
+description: "Install or upgrade Helm charts to EKS cluster"
+
+inputs:
+  chart_path:
+    description: "Path to Helm chart"
+    required: true
+  release_name:
+    description: "Release name for Helm"
+    required: true
+  namespace:
+    description: "Kubernetes namespace"
+    required: true
+  values_file:
+    description: "Optional path to values file"
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Print Helm deploy info
+      shell: bash
+      run: |
+        echo " Deploying Helm chart from path: ${{ inputs.chart_path }}"
+        echo " Release name: ${{ inputs.release_name }}"
+        echo " Namespace: ${{ inputs.namespace }}"
+        echo " Values file: ${{ inputs.values_file }}"
+
+    - name: Deploy with Helm
+      shell: bash
+      run: |
+        CMD="helm upgrade --install ${{ inputs.release_name }} ${{ inputs.chart_path }} --namespace ${{ inputs.namespace }}"
+        if [ -n "${{ inputs.values_file }}" ]; then
+          CMD="$CMD -f ${{ inputs.values_file }}"
+        fi
+        echo " Running: $CMD"
+        $CMD

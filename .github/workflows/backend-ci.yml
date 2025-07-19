@@ -20,7 +20,16 @@ jobs:
           context: ./backend
           ghcr-username: ${{ secrets.GHCR_USERNAME }}
           ghcr-token: ${{ secrets.GHCR_TOKEN }}
-
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+      
+      - name: Deploy Helm Chart to EKS
+        uses: ./.github/actions/helm-deploy
+        with:
+          chart_path: ./helm-chart
+          release_name: logistics-system
+          namespace: default
+          values_file: ./helm-chart/values.yaml
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@master
         with:

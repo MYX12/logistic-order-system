@@ -1,11 +1,11 @@
 replicaCount: 1
 image:
-  repository: 209479264082.dkr.ecr.ap-southeast-1.amazonaws.com/backend
+  repository: ghcr.io/myx12/backend
   tag: latest
   pullPolicy: IfNotPresent
 
 FrontendImage:
-  repository: 209479264082.dkr.ecr.ap-southeast-1.amazonaws.com/frontend
+  repository: ghcr.io/myx12/frontend
   tag: latest
   pullPolicy: IfNotPresent
 
