@@ -29,9 +29,11 @@ runs:
     - name: Deploy with Helm
       shell: bash
       run: |
-        CMD="helm upgrade --install ${{ inputs.release_name }} ${{ inputs.chart_path }} --namespace ${{ inputs.namespace }}"
-        if [ -n "${{ inputs.values_file }}" ]; then
-          CMD="$CMD -f ${{ inputs.values_file }}"
+        CMD="helm upgrade my-app ./helm-chart \
+              --install \
+              --namespace default \
+              --set image.tag=${{ github.sha }} \
+              --set FrontendImage.tag=${{ github.sha }}"
         fi
         echo " Running: $CMD"
         $CMD

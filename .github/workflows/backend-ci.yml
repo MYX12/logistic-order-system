@@ -29,6 +29,8 @@ jobs:
       - name: Deploy Helm Chart to EKS
         if: ${{ env.SKIP_HELM_DEPLOY != 'true'}}
         uses: ./.github/actions/helm-deploy
+        enviroment:
+          name: dev
         with:
           chart_path: ./helm-chart
           release_name: logistics-system
@@ -48,6 +50,22 @@ jobs:
           name: backend-trivy-report
           path: trivy-report.txt
 
+      - name: Backup previous deploy Sha
+        run: |
+          if [-f last-deploy.txt]: then
+            cp last-deploy.txt prev-deploy.txt
+          fi
+      
+      - name: Record Deployed sha
+        run: echo "${{ github.sha}}" > last-deploy.txt
+
+      - name: Save Sha as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy-sha
+          path: |
+           last-deploy.txt
+           prev-deploy.txt
 
 
 

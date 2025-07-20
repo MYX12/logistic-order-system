@@ -1,0 +1,40 @@
+name: Rollback to Previous Version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Download SHA artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: deploy-sha
+          path: ./artifacts
+
+      - name: Print previous SHA
+        run: |
+          echo "Rolling back to SHA:"
+          cat ./artifacts/prev-deploy.txt
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+
+      - name: Rollback backend via Helm
+        run: |
+          helm upgrade backend ./helm-chart \
+            --set image.tag=$(cat ./artifacts/prev-deploy.txt) \
+            --namespace your-namespace \
+            --install
+
+      - name: Rollback frontend via Helm
+        run: |
+          helm upgrade frontend ./helm-chart \
+            --set FrontendImage.tag=$(cat ./artifacts/prev-deploy.txt) \
+            --namespace your-namespace \
+            --install

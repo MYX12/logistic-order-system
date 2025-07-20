@@ -34,8 +34,8 @@ runs:
 
     - name: Tag Docker image for GHCR
       shell: bash
-      run: docker tag ${{ inputs.image-name }} ghcr.io/$(echo "${{ inputs.ghcr-username }}" | tr '[:upper:]' '[:lower:]')/${{ inputs.image-name }}:latest
+      run: docker tag ${{ inputs.image-name }} ghcr.io/$(echo "${{ inputs.ghcr-username }}" | tr '[:upper:]' '[:lower:]')/${{ inputs.image-name }}:${{ github.sha}}
 
     - name: Push Docker image to GHCR
       shell: bash
-      run: docker push ghcr.io/$(echo "${{ inputs.ghcr-username }}" | tr '[:upper:]' '[:lower:]')/${{ inputs.image-name }}:latest
+      run: docker push ghcr.io/$(echo "${{ inputs.ghcr-username }}" | tr '[:upper:]' '[:lower:]')/${{ inputs.image-name }}:${{ github.sha}}
